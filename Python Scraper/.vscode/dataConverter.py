@@ -79,8 +79,8 @@ def convertData(dataFiles):
                         lowPay = -1
                         highPay = -1
                         Equity = False
-                        Latitude = -1
-                        Longitude = -1
+                        Latitude = None
+                        Longitude = None
                         Posted = ""
                         Link = ""
                         Timestamp = ""
