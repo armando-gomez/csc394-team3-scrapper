@@ -1,10 +1,14 @@
 import csv
 import re
-from geopy.geocoders import Nominatim
-
-
 
 def convertData(dataFiles):
+    locData = []
+    with open('uscities.csv', 'r') as citiesCSV:
+        reader = csv.reader(citiesCSV)
+        for i in reader:
+            locData.append(i)
+    citiesCSV.close()
+
     states = {
 		"AL" : "Alabama",
 		"AL" : "Alaska",
@@ -59,12 +63,11 @@ def convertData(dataFiles):
 	}
     with open('jobData.csv', 'w', newline='') as file:
         data = []
-        data.append(["Title", "Company", "City","State", "lowPay", "hightPay","Equity" ,"latitude", "longitude" ,"Posted", "Link", "Timestamp"])
+        data.append(["Title", "Company", "City","State", "lowPay", "highPay","Equity" ,"latitude", "longitude" ,"Posted", "Link", "Timestamp"])
+
         for files in dataFiles:
             with open(files) as csvfile:
-                cnt = 0
                 readCSV = csv.reader(csvfile, delimiter=',')
-
                 for row in readCSV:
                     if "Title" in row[0] and "Company" in row[1]:
                         continue
@@ -98,7 +101,7 @@ def convertData(dataFiles):
                             State = ""
                             pass
 
-                        if row[3] == "" or row[3] == " ":
+                        if row[3] == "" or row[3] == " " or row[3] == ''or row[3] == ' ':
                             pass
                         elif "Equity" in row[3]:
                             Equity = True
@@ -106,7 +109,7 @@ def convertData(dataFiles):
                             temp = row[3].split('-')
                             temp2 = temp[0]
                             lowPay = temp2[temp2.find("$")+1:temp2.find("K")]
-                            
+                                
                             try:
                                 lowPay = int(lowPay) * 1000
                             except:
@@ -122,24 +125,18 @@ def convertData(dataFiles):
                                 highPay = temp2[temp2.find("$")+1:temp2.find("K")]
                                 highPay = int(highPay) * 1000
                                 pass
-                        try:
-                            geolocator = Nominatim(user_agent= "dataConverter")
-                            location = geolocator.geocode(City + "," + State)
-                            if location:
-                                Latitude =location.latitude
-                                Longitude =location.longitude
-                            else:
-                                Latitude = None
-                                Longitude = None
-                                
+                        try:                                
+                            for i in locData:                                
+                                if City == i[0] and State == i[3]:
+                                    Latitude = i[8]
+                                    Longitude = i[9]
+                        
                         except:
-                            print("ERRORS WITH GEO CODE")
+                            print("ERRORS FINDING LATITUDE AND LONGITUDE CODE")
                             pass
                         data.append([Title,Company,City,State,lowPay,highPay,Equity,Latitude,Longitude,Posted,Link,Timestamp])
                         Equity = False
-                        cnt += 1
-                        if cnt == 50:
-                            break
+                       
             csvfile.close()
         for row in data:
 
