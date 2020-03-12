@@ -108,23 +108,24 @@ def convertData(dataFiles):
                         else:
                             temp = row[3].split('-')
                             temp2 = temp[0]
-                            lowPay = temp2[temp2.find("$")+1:temp2.find("K")]
-                                
-                            try:
+                            if files == "GlassdoorData.csv":
+                                lowPay = temp2[temp2.find("$")+1:temp2.find("K")]
                                 lowPay = int(lowPay) * 1000
-                            except:
-                                lowPay = temp2[temp2.find("$")+1:temp2.find("k")]
-                                lowPay = int(lowPay) * 1000
-                                pass
+                                temp2 = temp[1]
+                                highPay = temp2[temp2.find("$")+1:temp2.find("k")]
+                                highPay = int(lowPay) * 1000
+                            else:
+                                try:
+                                    lowPay = temp2[temp2.find("$")+1:temp2.find("k")]
+                                    lowPay = int(lowPay) * 1000
+                                    temp2 = temp[1]
+                                    highPay = temp2[temp2.find(" ")+1:temp2.find("k")]
+                                    highPay = int(lowPay) * 1000
+                                except:
+                                    lowPay = -1
+                                    highPay = -1
+                                    pass
 
-                            temp2 = temp[1]
-                            highPay = temp2[temp2.find(" ")+1:temp2.find("k")]
-                            try:
-                                highPay = int(highPay) * 1000
-                            except:
-                                highPay = temp2[temp2.find("$")+1:temp2.find("K")]
-                                highPay = int(highPay) * 1000
-                                pass
                         try:                                
                             for i in locData:                                
                                 if City == i[0] and State == i[3]:
