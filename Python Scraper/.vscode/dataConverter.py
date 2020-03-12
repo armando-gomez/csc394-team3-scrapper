@@ -113,14 +113,14 @@ def convertData(dataFiles):
                                 lowPay = int(lowPay) * 1000
                                 temp2 = temp[1]
                                 highPay = temp2[temp2.find("$")+1:temp2.find("k")]
-                                highPay = int(lowPay) * 1000
+                                highPay = int(highPay) * 1000
                             else:
                                 try:
                                     lowPay = temp2[temp2.find("$")+1:temp2.find("k")]
                                     lowPay = int(lowPay) * 1000
                                     temp2 = temp[1]
                                     highPay = temp2[temp2.find(" ")+1:temp2.find("k")]
-                                    highPay = int(lowPay) * 1000
+                                    highPay = int(highPay) * 1000
                                 except:
                                     lowPay = -1
                                     highPay = -1
