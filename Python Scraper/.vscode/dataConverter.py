@@ -76,8 +76,8 @@ def convertData(dataFiles):
                         Company = ""
                         City = ""
                         State = ""
-                        lowPay = -1
-                        highPay = -1
+                        lowPay = None
+                        highPay = None
                         Equity = False
                         Latitude = None
                         Longitude = None
@@ -122,8 +122,8 @@ def convertData(dataFiles):
                                     highPay = temp2[temp2.find(" ")+1:temp2.find("k")]
                                     highPay = int(highPay) * 1000
                                 except:
-                                    lowPay = -1
-                                    highPay = -1
+                                    lowPay = None
+                                    highPay = None
                                     pass
 
                         try:                                
